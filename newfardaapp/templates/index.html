@@ -1,0 +1,208 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>{% block title %}form{% endblock %}</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+
+    <style>
+      body {
+        background: #d8e4f8;
+        padding: 0;
+        margin: 0;
+      }
+      .swiper {
+        width: 80%;
+        max-width: 800px;
+        background: white;
+        height: 50vh;
+        top: 10vh;
+        border-radius: 15px;
+      }
+
+      .swiper-button-next {
+        position: absolute;
+        bottom: 5px;
+        right: 15px;
+        left: unset;
+        top: unset;
+        border-radius: 3px;
+        font-size: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .swiper-button-next:after,
+      .swiper-button-prev:after {
+        font-size: 20px;
+        font-weight: 900;
+      }
+      .swiper-button-prev {
+        position: absolute;
+        bottom: 5px;
+        right: 45px;
+        left: unset;
+        top: unset;
+        border-radius: 3px;
+        font-size: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .submit {
+        position: absolute;
+        bottom: 15px;
+        left: 20px;
+        background: #3a7df6;
+        outline: 0;
+        border: none;
+        width: 100px;
+        height: 30px;
+        border-radius: 3px;
+        color: #fff;
+        font-weight: 900;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+      }
+      .none {
+        display: none;
+      }
+
+      input {
+        width: 100%;
+        height: 40px;
+        border: 2px solid #dde6f7;
+        border-radius: 3px;
+        padding: 10px;
+        color: #00153f;
+      }
+      .profile {
+        direction: rtl;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        width: 70%;
+        margin: auto;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        position: absolute;
+      }
+      .skills > div {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        justify-content: center;
+      }
+      .skills {
+        direction: rtl;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 50px;
+        width: 70%;
+        margin: auto;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        position: absolute;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .networks {
+        display: grid;
+        width: 70%;
+        margin: auto;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        position: absolute;
+        align-items: center;
+        justify-content: center;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        direction: rtl;
+      }
+      .menu{display: flex;
+        gap: 10px;
+        position: fixed;
+        left: 20px;
+        top: 20px;
+        align-items: center;
+        justify-content: center;}
+        .menu a, .menu button{
+          outline: none;
+          width: 115px;
+          border: 2px dashed #0048ff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 35px;
+          background: top;
+          color: #001038;
+          text-decoration: none;
+          font-size: 13px;
+          border-radius: 3px;
+          box-sizing: border-box;
+          cursor: pointer;
+        }
+        .menu form{
+          margin:0
+        }
+    </style>
+  </head>
+
+  <body>
+    <div class="menu">
+      {% if user.is_authenticated %}
+      <a href="{% url 'password_change' %}">رمز عبور</a>
+      <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">خروج</button>
+      </form>
+      {% else %}
+      <p>لاگین نیستید</p>
+      <a href="{% url 'password_reset' %}">رمز عبور</a>
+      <a href="{% url 'login' %}">ورود</a>
+      {% endif %}
+    </div>
+    <form method="post">
+      <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <div class="profile">{% csrf_token %} {{ profile }}</div>
+          </div>
+          <div class="swiper-slide">
+            <div class="skills">{{ skills }}</div>
+          </div>
+          <div class="swiper-slide">
+            <div class="networks">{{ networks }}</div>
+            <input type="submit" value="ذخیره" class="submit" />
+          </div>
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+      </div>
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+      var swiper = new Swiper(".mySwiper", {
+        pagination: {
+          el: ".swiper-pagination",
+          type: "progressbar",
+        },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+      });
+    </script>
+  </body>
+</html>
